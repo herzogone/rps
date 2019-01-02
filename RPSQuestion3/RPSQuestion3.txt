@@ -1,0 +1,36 @@
+Problem:
+
+Given the following information of a map window, find the pixel location of   
+
+71° 20’ 13” W, 41° 33’ 24” N.  
+
+Lower left map window coordinate: 71° 48’ 56” W, 41° 16’ 0” N  
+
+Upper right map window coordinate: 70° 13’ 3” W, 41° 56’ 39” N  
+
+Map window size in pixels: 1585 px width x 895 px height
+
+Solution:
+
+Note: since not specified, this solution assumes a simple equirectangular projection
+
+First, it is necessary to convert the lat/lon coordinates from degrees/minutes/seconds to decimal degrees using the formula:
+degrees + (minutes + (seconds / 60)) / 60
+
+This gives the following:
+
+Location: 71.33694444444444 W, 41.55666666666667 N
+Lower left: 71.81555555555556 W, 41.26666666666667 N
+Upper right: 70.2175 W, 41.94416666666667 N
+
+To determine the left pixel offset of the location, find the ratio of the difference between location longitude and the left longitude to the difference between the right longitude and left longitude, then multiply this ratio by the canvas width.
+
+(71.33694444444444 - 71.81555555555556) / (70.2175 - 71.81555555555556) * 1585 = 475
+
+To determine the top pixel offset of the location, find the ratio of the difference between the location latitude and the upper latitude to the difference between the lower and upper latitudes, then multiply this ratio by the canvas height.
+
+(41.55666666666667 - 41.94416666666667) / (41.26666666666667 - 41.94416666666667) * 895 = 512
+
+Hence, the pixel position of the location on a map window 1585 pixels wide by 895 pixels tall is 475 pixels over from the left side, and 512 pixels down from the top.
+
+A Visual Studio C# WPF example implementation of this solution can be found in the RPSQuestion3 directory.
